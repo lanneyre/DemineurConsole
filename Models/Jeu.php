@@ -15,8 +15,8 @@ class Jeu{
 
     function creuser(){
         $this->terrain->afficherTerrain();
-        echo "-----------------------\n";
-        $this->terrain->afficherSolution();
+        // echo "-----------------------\n";
+        // $this->terrain->afficherSolution();
         // $lettre = readline("Entrez une lettre");
         // $chiffre = readline("Entrez un chiffre");
         do{
@@ -35,12 +35,18 @@ class Jeu{
 
         $mine = new Mine($coord["x"], $coord["y"]);
         if(in_array($mine, $this->terrain->tabMines)){
-            echo "BOOOMMM ! t'es mort !";
+            echo "BOOOMMM ! t'es mort !\n";
+            $this->terrain->afficherSolution();
         } else {
-            var_dump($this->terrain->terrainCache[$coord["x"]][$coord["y"]]);
+            // var_dump($this->terrain->terrainCache[$coord["x"]][$coord["y"]]);
             $this->terrain->changeTerrain($coord["x"],$coord["y"]);
-            echo "Essaye encore\n";
-            $this->creuser();
+            if($this->terrain->evaluateTerrain()){
+                echo "Bravo, vérifier votre chance auprès de votre conjoint(e) !";
+            } else {
+                echo "Essaye encore\n";
+                $this->creuser();
+            }
+            
         }
     }
 }
